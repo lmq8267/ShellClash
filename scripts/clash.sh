@@ -31,7 +31,7 @@ ckstatus(){
 	#设置默认端口及变量
 	[ -z "$mix_port" ] && mix_port=7890
 	[ -z "$redir_port" ] && redir_port=7892
-	[ -z "$db_port" ] && db_port=9999
+	[ -z "$db_port" ] && db_port=9090
 	[ -z "$dns_port" ] && dns_port=1053
 	[ -z "$multiport" ] && multiport='22,53,80,123,143,194,443,465,587,853,993,995,5222,8080,8443'
 	[ -z "$local_proxy" ] && local_proxy=未开启
