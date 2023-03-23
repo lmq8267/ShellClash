@@ -210,7 +210,7 @@ if [ "$USER" != "root" -a -z "$systype" ];then
 fi
 
 #检查更新
-url_cdn="https://fastly.jsdelivr.net/gh/juewuy/ShellClash"
+url_cdn="https://fastly.jsdelivr.net/gh/lmq8267/ShellClash"
 [ -z "$url" ] && url=$url_cdn
 echo -----------------------------------------------
 $echo "\033[33m请选择想要安装的版本：\033[0m"	
