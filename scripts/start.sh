@@ -23,7 +23,7 @@ getconfig(){
 	[ -z "$mix_port" ] && mix_port=7890
 	[ -z "$redir_port" ] && redir_port=7892
 	[ -z "$tproxy_port" ] && tproxy_port=7893
-	[ -z "$db_port" ] && db_port=9999
+	[ -z "$db_port" ] && db_port=9090
 	[ -z "$dns_port" ] && dns_port=1053
 	[ -z "$sniffer" ] && sniffer=已开启
 	#是否代理常用端口
@@ -53,6 +53,7 @@ logger(){
 	[ -n "$2" ] && echo -e "\033[$2m$1\033[0m"
 	log_text="$(date "+%G-%m-%d_%H:%M:%S")~$1"
 	echo $log_text >> /tmp/ShellClash_log
+	echo $log_text >> /tmp/syslog.log
 	[ "$(wc -l /tmp/ShellClash_log | awk '{print $1}')" -gt 99 ] && sed -i '1,5d' /tmp/ShellClash_log
 	[ -z "$3" ] && {
 		getconfig
@@ -1255,6 +1256,10 @@ afstart(){
 		#自动开启SSH
 		[ "$mi_autoSSH" = "已启用" ] && autoSSH 2>/dev/null	&
 		{ sleep 30;logger Clash服务已启动！;} &
+		sed -Ei '/clash|^$/d' /tmp/script/_opt_script_check
+                cat >> "/tmp/script/_opt_script_check" <<-OSC
+	        [ -z "\`pidof clash\`" ] && logger -t "【ShellClash】" "重新启动" &&  /etc/storage/clash/start.sh restart
+OSC
 	else
 		logger "Clash服务启动失败！请查看报错信息！" 31
 		$bindir/clash -t -d $bindir
@@ -1306,6 +1311,7 @@ stop)
 		getconfig
 		logger Clash服务即将关闭……
 		[ -n "$(pidof clash)" ] && [ "$restore" = false ] && web_save #保存面板配置
+		sed -Ei '/clash|^$/d' /tmp/script/_opt_script_check
 		#删除守护进程&面板配置自动保存
 		cronset "clash保守模式守护进程"
 		cronset "保存节点配置"
@@ -1349,7 +1355,7 @@ init)
 		sed -i "/export clashdir/d" $profile 
 		echo "alias clash=\"$clashdir/clash.sh\"" >> $profile 
 		echo "export clashdir=\"$clashdir\"" >> $profile 
-		[ -f $clashdir/.dis_startup ] && cronset "clash保守模式守护进程" || $0 start
+		[ -f $clashdir/.dis_startup ] && $0 start
         ;;
 getyaml)	
 		getconfig
@@ -1414,7 +1420,7 @@ web_restore)
 	;;
 daemon)
 		getconfig
-		cronset '#clash保守模式守护进程' "*/1 * * * * test -z \"\$(pidof clash)\" && $clashdir/start.sh restart #clash保守模式守护进程"
+		cronset '#clash保守模式守护进程' 
 	;;
 cronset)
 		cronset $2 $3
