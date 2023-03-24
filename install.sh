@@ -55,10 +55,10 @@ gettar(){
 		echo -----------------------------------------------
 		echo 开始解压文件！
 		mkdir -p $clashdir > /dev/null
-		tar -zxvf '/tmp/ShellClash.tar.gz' -C /tmp || tar -zxvf --no-same-owner '/tmp/ShellClash.tar.gz' -C /tmp
+		tar -xzvf '/tmp/ShellClash.tar.gz' -C /tmp || tar -xzvf --no-same-owner '/tmp/ShellClash.tar.gz' -C /tmp
 		mv -f /tmp/ShellClash/* /etc/storage/clash/*
-		if [ -f $clashdir/init.sh ];then
-			source $clashdir/init.sh >/dev/null
+		if [ -f /etc/storage/clash/init.sh ];then
+			source /etc/storage/clash/init.sh >/dev/null
 		else
 			rm -rf /tmp/ShellClash.tar.gz
 			$echo "\033[33m文件解压失败！\033[0m"
