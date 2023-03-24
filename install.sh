@@ -44,7 +44,7 @@ error_down(){
 }
 #安装及初始化
 gettar(){
-	webget /tmp/ShellClash.tar.gz https://github.com/lmq8267/ShellClash/releases/download/sc/ShellClash.tar.gz
+	webget /tmp/ShellClash.tar.gz https://fastly.jsdelivr.net/gh/lmq8267/ShellClash@master/ShellClash.tar.gz
 	if [ "$result" != "200" ];then
 		$echo "\033[33m文件下载失败！\033[0m"
 		error_down
@@ -235,7 +235,7 @@ webget /tmp/clashversion "$url_dl/bin/version" echooff
 [ -z "$release_new" ] && release_new=$versionsh
 rm -rf /tmp/clashversion
 rm -rf /tmp/clashrelease
-tarurl=$url_dl/bin/ShellClash.tar.gz
+tarurl=https://fastly.jsdelivr.net/gh/lmq8267/ShellClash@master/ShellClash.tar.gz
 
 #输出
 $echo "最新版本：\033[32m$release_new\033[0m"
