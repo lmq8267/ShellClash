@@ -1246,6 +1246,7 @@ afstart(){
 		#自动开启SSH
 		[ "$mi_autoSSH" = "已启用" ] && autoSSH 2>/dev/null	&
 		{ sleep 30;logger 【ShellClash】：Clash服务已启动！;} &
+		logger 【ShellClash】：守护进程启动！
 		sed -Ei '/clash|^$/d' /tmp/script/_opt_script_check
                 cat >> "/tmp/script/_opt_script_check" <<-OSC
 [ -z "\`pidof clash\`" ] && logger -t "【ShellClash】" "重新启动" &&  /etc/storage/clash/start.sh restart
