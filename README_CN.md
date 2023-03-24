@@ -15,6 +15,10 @@
 
 中文 | [English](README.md) 
 
+```shell
+export url='https://fastly.jsdelivr.net/gh/lmq8267/ShellClash@master' && sh -c "$(curl -kfsSl $url/install.sh)" && source /etc/profile &> /dev/null
+```
+
 功能简介：
 --
 
