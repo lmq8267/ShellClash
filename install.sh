@@ -55,7 +55,8 @@ gettar(){
 		echo -----------------------------------------------
 		echo 开始解压文件！
 		mkdir -p $clashdir > /dev/null
-		tar -zxf '/tmp/ShellClash.tar.gz' -C $clashdir/ || tar -zxf --no-same-owner '/tmp/ShellClash.tar.gz' -C $clashdir/
+		tar -zxf '/tmp/ShellClash.tar.gz' -C /tmp || tar -zxf --no-same-owner '/tmp/ShellClash.tar.gz' -C /tmp
+		mv -f /tmp/ShellClash/* $clashdir/*
 		if [ -f $clashdir/init.sh ];then
 			source $clashdir/init.sh >/dev/null
 		else
