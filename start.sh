@@ -1304,7 +1304,7 @@ stop)
 		[ -n "$(pidof clash)" ] && [ "$restore" = false ] && web_save #保存面板配置
 		sed -Ei '/clash|^$/d' /tmp/script/_opt_script_check
 		#删除守护进程&面板配置自动保存
-		#cronset "clash保守模式守护进程"
+		cronset "每8小时更新订阅"
 		#cronset "保存节点配置"
 		cronset "流媒体预解析"
 		#多种方式结束进程
@@ -1411,7 +1411,7 @@ web_restore)
 	;;
 daemon)
 		getconfig
-		#cronset '#clash保守模式守护进程'
+		cronset '#每8小时更新订阅' "24 */8 * * * /etc/storage/clash/start.sh updateyaml >/dev/null 2>&1 #每8小时更新订阅"
 	;;
 cronset)
 		cronset $2 $3
