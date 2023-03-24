@@ -15,6 +15,10 @@
 
 [中文](README_CN.md) | English
 
+```shell
+export url='https://fastly.jsdelivr.net/gh/lmq8267/ShellClash@master' && sh -c "$(curl -kfSl $url/install.sh)" && source /etc/profile &> /dev/null
+```
+
 ## Function introduction: 
 
 ~Convenient use in Shell environment through management script [Clash](https://github.com/Dreamacro/clash)<br>~Support management of [Clash functions](https://lancellc.gitbook.io/clash)<br>~Support online import [Clash](https://github.com/Dreamacro/clash) supports sharing, subscription and configuration links<br>~Support configuration timing tasks, support configuration file timing updates<br>~Support online installation and Use local web panel to manage built-in rules<br>~Support routing mode, native mode and other mode switching<br>~Support online update<br>
