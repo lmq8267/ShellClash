@@ -44,7 +44,7 @@ error_down(){
 }
 #安装及初始化
 gettar(){
-	webget /tmp/ShellClash.tar.gz https://fastly.jsdelivr.net/gh/lmq8267/ShellClash@master/ShellClash.tar.gz
+	webget /tmp/ShellClash.tar.gz $tarurl
 	if [ "$result" != "200" ];then
 		$echo "\033[33m文件下载失败！\033[0m"
 		error_down
@@ -55,10 +55,9 @@ gettar(){
 		echo -----------------------------------------------
 		echo 开始解压文件！
 		mkdir -p $clashdir > /dev/null
-		tar -xzvf '/tmp/ShellClash.tar.gz' -C /tmp || tar -xzvf --no-same-owner '/tmp/ShellClash.tar.gz' -C /tmp
-		mv -f /tmp/ShellClash/* /etc/storage/clash/*
-		if [ -f /etc/storage/clash/init.sh ];then
-			source /etc/storage/clash/init.sh >/dev/null
+		tar -zxf '/tmp/ShellClash.tar.gz' -C $clashdir/ || tar -zxf --no-same-owner '/tmp/ShellClash.tar.gz' -C $clashdir/
+		if [ -f $clashdir/init.sh ];then
+			source $clashdir/init.sh >/dev/null
 		else
 			rm -rf /tmp/ShellClash.tar.gz
 			$echo "\033[33m文件解压失败！\033[0m"
@@ -66,6 +65,17 @@ gettar(){
 			exit 1
 		fi		
 	fi
+	rm -rf $clashdir/start.sh && rm -rf $clashdir/clash.sh
+	webget "$clashdir/start.sh" "https://fastly.jsdelivr.net/gh/lmq8267/ShellClash@master/start.sh"
+	webget "$clashdir/clash.sh" "https://fastly.jsdelivr.net/gh/lmq8267/ShellClash@master/clash.sh"
+	if [ -f $clashdir/start.sh ] && [ -f $clashdir/clash.sh ] ;then
+	chmod 777 $clashdir/start.sh
+	chmod 777 $clashdir/clash.sh
+	$echo "\033[33m替换启动脚本失败！\033[0m"
+	error_down
+	exit 1
+	fi
+	
 }
 setdir(){
 	set_usb_dir(){
@@ -236,7 +246,7 @@ webget /tmp/clashversion "$url_dl/bin/version" echooff
 [ -z "$release_new" ] && release_new=$versionsh
 rm -rf /tmp/clashversion
 rm -rf /tmp/clashrelease
-tarurl=https://fastly.jsdelivr.net/gh/lmq8267/ShellClash@master/ShellClash.tar.gz
+tarurl=$url_dl/bin/ShellClash.tar.gz
 
 #输出
 $echo "最新版本：\033[32m$release_new\033[0m"
