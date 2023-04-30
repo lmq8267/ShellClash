@@ -25,6 +25,15 @@ ln -s /etc/storage/profile /etc/profile
 source /etc/profile
 fi
 fi
+cat /etc/storage/started_script.sh | grep -o 'start.sh' &>/dev/null
+if [ $? -ne 0 ]; then
+cat >> "/etc/storage/started_script.sh" <<-OSC
+######shellcalsh开机自启#######
+/etc/storage/clash/start.sh start &
+###############################
+
+OSC
+fi
 tag="$( wget -T 5 -t 3 --user-agent "$user_agent" --max-redirect=0 --output-document=-  https://api.github.com/repos/juewuy/ShellClash/releases/latest  2>&1 | grep 'tag_name' | cut -d\" -f4 )"
 [ -z "$tag" ] && tag="$( wget -T 5 -t 3 --user-agent "$user_agent" --quiet --output-document=-  https://api.github.com/repos/juewuy/ShellClash/releases/latest  2>&1 | grep 'tag_name' | cut -d\" -f4 )"
 [ -z "$tag" ] && tag="$( curl --connect-timeout 3 --user-agent "$user_agent"  https://api.github.com/repos/juewuy/ShellClash/releases/latest  2>&1 | grep 'tag_name' | cut -d\" -f4 )"
@@ -150,6 +159,6 @@ sed -i '/killall clash_websave.sh/a    killall -9 clash_websave.sh &' /tmp/var/c
 fi
 chmod 755 /tmp/var/clash/*
 cp -rf /tmp/var/clash/* /etc/storage/clash/
-[ -z "\`pidof clash\`" ] && /etc/storage/clash/start.sh start &
+/etc/storage/clash/start.sh restart &
 fi
 fi
