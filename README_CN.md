@@ -15,8 +15,16 @@
 
 中文 | [English](README.md) 
 
+hiboy版padavan专用ShellClash下载更新脚本
+
 ```shell
-export url='https://fastly.jsdelivr.net/gh/lmq8267/ShellClash@master' && sh -c "$(curl -kfSl $url/install.sh)" && source /etc/profile &> /dev/null
+export url='https://fastly.jsdelivr.net/gh/lmq8267/ShellClash@master' && sh -c "$(curl -kfSl $url/clash_up.sh)" && source /etc/profile &> /dev/null
+```
+
+作者通用下载脚本
+
+```shell
+export url='https://fastly.jsdelivr.net/gh/juewuy/ShellClash@master' && sh -c "$(curl -kfsSl $url/install.sh)" && source /etc/profile &> /dev/null
 ```
 
 功能简介：
